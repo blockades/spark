@@ -8,10 +8,10 @@ version := "1.0.0"
 scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.0.0" % "provided",
-  "org.apache.spark" %% "spark-sql" % "2.0.0" % "provided",
-"com.datastax.spark" %% "spark-cassandra-connector" % "2.0.0-M1",
-//  "com.github.fommil.netlib" % "all" % "1.1.2" pomOnly(),
+  "org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
+  "org.apache.spark" %% "spark-sql" % "1.6.1" % "provided",
+  "com.datastax.spark" %% "spark-cassandra-connector" % "1.6.0",
+  "org.json4s" %% "json4s-jackson" % "3.3.0.RC2",
   "org.scalaj" %% "scalaj-http" % "2.0.0"
 )
 
