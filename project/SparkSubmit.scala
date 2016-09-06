@@ -50,7 +50,10 @@ object SparkSubmit {
     Script("TransactionsPerBlockPerDayViz", "900m"),
     Script("OpReturnTransactionsPerBlockPerDayViz", "900m"),
     Script("SignalsPerTransactionPerBlockPerDayViz", "900m"),
-    Script("OpReturnSignalsPerTransactionPerBlockPerDayViz", "900m")
+    Script("OpReturnSignalsPerTransactionPerBlockPerDayViz", "900m"),
+    Script("OpReturnBlocksVsBlocksViz", "900m"),
+    Script("OpReturnTransactionsVsTransactionsViz", "900m"),
+    Script("OpReturnSignalsVsSignalsViz", "900m")
   )
 
   lazy val configurations = SparkSubmitSetting(configs.map(_.toSparkSubmit): _*)
