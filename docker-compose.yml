@@ -62,7 +62,7 @@ services:
     hostname: spark-worker
     domainname: hadoop
     extra_hosts:
-      - 'spark-master.hadoop:172.19.0.5'
+      - 'spark-master.hadoop:172.18.0.9'
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
       - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager

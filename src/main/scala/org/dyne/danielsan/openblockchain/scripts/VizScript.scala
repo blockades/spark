@@ -1,5 +1,7 @@
 package org.dyne.danielsan.openblockchain.scripts
 
+import java.util.Calendar
+
 import com.datastax.spark.connector._
 import org.dyne.danielsan.openblockchain.entities.Visualization
 
@@ -11,7 +13,14 @@ trait VizScript extends Script {
     def floorTimestamp(granularity: String): Long = {
       granularity match {
         case "day" => l - (l % 1.day.toSeconds)
-        case "month" => l - (l % 1.day.toSeconds) // TODO
+        case "month" =>
+          val cal = Calendar.getInstance()
+          cal.setTimeInMillis(l * 1000)
+          cal.set(Calendar.SECOND, 0)
+          cal.set(Calendar.MINUTE, 0)
+          cal.set(Calendar.HOUR_OF_DAY, 0)
+          cal.set(Calendar.DAY_OF_MONTH, 1)
+          cal.getTimeInMillis / 1000
         case _ => l
       }
     }

@@ -21,20 +21,16 @@ trait VizGraph {
   def aggregateForGraph(granularity: String): Visualization = {
     val aggData = ListBuffer[AllOrNorPoint]()
 
-    val dataAllIter = dataAll.iterator
-    val dataOpReturnIter = dataOpReturn.iterator
-    val dataNonOpReturnIter = dataNonOpReturn.iterator
+    // TODO generate all x points
 
-    while (dataAllIter.hasNext && dataOpReturnIter.hasNext && dataNonOpReturnIter.hasNext) { // TODO
-      val allPoint = dataAllIter.next()
-      val opReturnPoint = dataOpReturnIter.next()
-      val nonOpReturnPoint = dataNonOpReturnIter.next()
+    for (i <- dataAll.indices) {
+      val allPoint = dataAll(i)
 
       aggData += AllOrNorPoint(
         allPoint.x,
         allPoint.y,
-        opReturnPoint.y,
-        nonOpReturnPoint.y
+        if (i < dataOpReturn.length) dataOpReturn(i).y else 0,
+        if (i < dataNonOpReturn.length) dataNonOpReturn(i).y else 0
       )
     }
 
