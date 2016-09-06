@@ -9,10 +9,10 @@ object SparkSubmit {
   private lazy val masterAddress = sys.env("OBC_SPARK_MASTER_ADDRESS")
   private lazy val sparkMaster = sys.env.getOrElse("OBC_SPARK_MASTER", "local[*]")
 
-  private sealed case class Script(scriptName: String, memorySize: String) {
+  private sealed case class Script(scriptName: String, scriptCls: String, memorySize: String) {
     def toSparkSubmit = {
       val params = mutable.MutableList(
-        "--class", s"org.dyne.danielsan.openblockchain.scripts.$scriptName",
+        "--class", s"org.dyne.danielsan.openblockchain.scripts.$scriptCls",
         "--executor-memory", memorySize,
         "--deploy-mode", "cluster",
         "--master", sparkMaster
@@ -44,16 +44,10 @@ object SparkSubmit {
 
   // Define sbt tasks for every script
   private lazy val configs = Seq(
-    Script("Counter", "900m"),
-    Script("BlocksPerDayViz", "900m"),
-    Script("OpReturnBlocksPerDayViz", "900m"),
-    Script("TransactionsPerBlockPerDayViz", "900m"),
-    Script("OpReturnTransactionsPerBlockPerDayViz", "900m"),
-    Script("SignalsPerTransactionPerBlockPerDayViz", "900m"),
-    Script("OpReturnSignalsPerTransactionPerBlockPerDayViz", "900m"),
-    Script("OpReturnBlocksVsBlocksViz", "900m"),
-    Script("OpReturnTransactionsVsTransactionsViz", "900m"),
-    Script("OpReturnSignalsVsSignalsViz", "900m")
+    Script("Counter", "Counter", "900m"),
+    Script("BlocksViz", "line.BlocksViz", "900m"),
+    Script("TransactionsViz", "line.TransactionsViz", "900m"),
+    Script("SignalsViz", "line.SignalsViz", "900m")
   )
 
   lazy val configurations = SparkSubmitSetting(configs.map(_.toSparkSubmit): _*)
