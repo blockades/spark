@@ -8,9 +8,9 @@ version := "1.0.0"
 scalaVersion := "2.11.8"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "1.6.1" % "provided",
-  "org.apache.spark" %% "spark-sql" % "1.6.1" % "provided",
-  "com.datastax.spark" %% "spark-cassandra-connector" % "1.6.0",
+  "org.apache.spark" %% "spark-core" % "2.0.0" % "provided",
+  "org.apache.spark" %% "spark-sql" % "2.0.0" % "provided",
+  "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.0-M1",
   "org.json4s" %% "json4s-jackson" % "3.3.0.RC2",
   "org.scalaj" %% "scalaj-http" % "2.0.0"
 )
@@ -37,8 +37,14 @@ assemblyMergeStrategy in assembly := {
       oldStrategy(x)
 }
 
+assemblyShadeRules in assembly := Seq(
+  ShadeRule.rename("com.google.**" -> "shadeio.@1").inAll
+)
+
 // Use assembly to create the uber jar
 sparkSubmitJar := assembly.value.getAbsolutePath
 
 // Import submit tasks
 SparkSubmit.configurations
+
+connectInput in run := true

@@ -5,8 +5,6 @@ services:
     hostname: namenode
     container_name: namenode
     domainname: hadoop
-    networks:
-      - hadoop
     volumes:
       - /openblockchain/hadoop/data/namenode:/hadoop/dfs/name
     environment:
@@ -22,32 +20,27 @@ services:
     hostname: datanode1
     container_name: datanode1
     domainname: hadoop
-    networks:
-      - hadoop
     volumes:
       - /openblockchain/hadoop/data/datanode1:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
 
-  datanode2:
-    image: bde2020/hadoop-datanode:1.0.0
-    hostname: datanode2
-    container_name: datanode2
-    domainname: hadoop
-    networks:
-      - hadoop
-    volumes:
-      - /openblockchain/hadoop/data/datanode2:/hadoop/dfs/data
-    env_file:
-      - ./hadoop.env
+#  datanode2:
+#    image: bde2020/hadoop-datanode:1.0.0
+#    hostname: datanode2
+#    container_name: datanode2
+#    domainname: hadoop
+#    volumes:
+#      - /openblockchain/hadoop/data/datanode2:/hadoop/dfs/data
+#    env_file:
+#      - ./hadoop.env
 
   spark-master:
-    image: earthquakesan/hadoop-spark-master:1.0.0
+    image: aluxian/hadoop-spark-master
+#    build: '../../docker-spark/spark-master'
     hostname: spark-master
     container_name: spark-master
     domainname: hadoop
-    networks:
-      - hadoop
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
       - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
@@ -56,17 +49,20 @@ services:
       - SPARK_CONF_spark_history_fs_logDirectory=hdfs://namenode:8020/spark-logs
     env_file:
       - ./hadoop.env
+    volumes:
+      - /openblockchain/jars:/jars
     ports:
         - "6066:6066"
         - "7077:7077"
         - "8080:8080"
 
   spark-worker:
-    image: earthquakesan/hadoop-spark-worker:1.0.0
+    image: aluxian/hadoop-spark-worker
+#    build: '../../docker-spark/spark-worker'
     hostname: spark-worker
     domainname: hadoop
-    networks:
-      - hadoop
+    extra_hosts:
+      - 'spark-master.hadoop:172.19.0.5'
     environment:
       - CORE_CONF_fs_defaultFS=hdfs://namenode:8020
       - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
@@ -74,6 +70,11 @@ services:
       - SPARK_CONF_spark_eventLog_dir=hdfs://namenode:8020/spark-logs
       - SPARK_CONF_spark_history_fs_logDirectory=hdfs://namenode:8020/spark-logs
       - SPARK_MASTER_URL=spark://spark-master:7077
+    ports:
+      - "8081:8081"
+      - "4040:4040"
+    volumes:
+       - /openblockchain/jars:/jars
     env_file:
       - ./hadoop.env
 
@@ -82,13 +83,12 @@ services:
     hostname: hdfsfb
     container_name: hdfsfb
     domainname: hadoop
-    networks:
-      - hadoop
     environment:
       - NAMENODE_HOST=namenode
     ports:
       - "8088:8088"
 
 networks:
-  hadoop:
-    external: true
+  default:
+    external:
+      name: openblockchain
