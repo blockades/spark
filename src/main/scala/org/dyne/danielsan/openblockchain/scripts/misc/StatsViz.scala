@@ -4,10 +4,11 @@ import com.datastax.spark.connector._
 import org.dyne.danielsan.openblockchain.entities.Visualization
 import org.dyne.danielsan.openblockchain.scripts.VizScript
 import org.json4s.jackson.Serialization._
+import scala.concurrent.duration._
 
-object StatsViz extends VizScript {
+object StatsViz extends VizScript[Double] {
 
-  override def generate(): Seq[Visualization] = {
+  override def generate(): Seq[Visualization[Map[String, Double]]] = {
     val data = Map(
       ("averageBlocksPerDay", averageBlocks("day")),
       ("averageBlocksPerMonth", averageBlocks("month")),
@@ -32,7 +33,7 @@ object StatsViz extends VizScript {
     )
 
     Seq(
-      Visualization("stats", "alltime", "num", List(write(data)))
+      Visualization("stats", "alltime", "num", List(data))
     )
   }
 
@@ -134,5 +135,31 @@ object StatsViz extends VizScript {
 
     numSignals / numX
   }
+
+//  def blocksMined(): Double = {
+//    val oneDayAgoMs = System.currentTimeMillis() - 1.day.toMillis
+//    val blocksMined = sc.cassandraTable("openblockchain", "blocks")
+//      .where("time >= ?", oneDayAgoMs)
+//      .cassandraCount()
+//  }
+
+//  def averageTimeBetweenBlocks(): Double = {
+//    val oneDayAgoMs = System.currentTimeMillis() - 1.day.toMillis
+//    val blockTimes = sc.cassandraTable[(Long)]("openblockchain", "blocks")
+//      .select("time")
+//      .where("time >= ?", oneDayAgoMs)
+//      .collect()
+//      .toList
+//
+//    val totalTimeBetweenBlocks = blockTimes.zip(blockTimes.tail).map(pair => pair._2 - pair._1).sum
+//    val averageTimeBetweenBlocks = totalTimeBetweenBlocks.toDouble / blocksMined
+//  }
+
+//  def numTransactions(): Double = {
+//    val oneDayAgoMs = System.currentTimeMillis() - 1.day.toMillis
+//    val numTransactions = sc.cassandraTable("openblockchain", "transactions")
+//      .where("blocktime >= ?", oneDayAgoMs)
+//      .cassandraCount()
+//  }
 
 }

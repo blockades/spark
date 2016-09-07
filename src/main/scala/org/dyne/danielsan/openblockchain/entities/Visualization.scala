@@ -1,7 +1,6 @@
-package org.dyne.danielsan.openblockchain.models
+package org.dyne.danielsan.openblockchain.entities
 
-case class Visualization(id: String,
+case class Visualization[T](id: String,
                          period: String,
                          unit: String,
-                         name: String,
-                         data: List[String])
+                         data: List[T])

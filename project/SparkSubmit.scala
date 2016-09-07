@@ -48,9 +48,7 @@ object SparkSubmit {
     Script("BlocksViz", "line.BlocksViz", "900m"),
     Script("TransactionsViz", "line.TransactionsViz", "900m"),
     Script("SignalsViz", "line.SignalsViz", "900m"),
-    Script("OpReturnBlocksVsBlocksViz", "pie.OpReturnBlocksVsBlocksViz", "900m"),
-    Script("OpReturnTransactionsVsTransactionsViz", "pie.OpReturnTransactionsVsTransactionsViz", "900m"),
-    Script("OpReturnSignalsVsSignalsViz", "pie.OpReturnSignalsVsSignalsViz", "900m")
+    Script("StatsViz", "misc.StatsViz", "900m")
   )
 
   lazy val configurations = SparkSubmitSetting(configs.map(_.toSparkSubmit): _*)
