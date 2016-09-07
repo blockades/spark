@@ -8,7 +8,6 @@ object Signals extends Helpers {
   def allOrNor(granularity: String)(implicit sc: SparkContext): List[Map[String, Long]] = {
     sc.cassandraTable[(Long, List[String])]("openblockchain", "transactions")
       .select("blocktime", "vout")
-      .repartition(16)
       .map {
         case (time, voutList) =>
           val countAll = voutList.length.toLong
@@ -37,7 +36,6 @@ object Signals extends Helpers {
   def average(granularity: String)(implicit sc: SparkContext): Map[String, Double] = {
     val data = sc.cassandraTable[(Long, List[String])]("openblockchain", "transactions")
       .select("blocktime", "vout")
-      .repartition(16)
       .map {
         case (time, voutList) =>
           val countAll = voutList.length.toLong
