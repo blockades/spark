@@ -1,18 +1,19 @@
 package org.dyne.danielsan.openblockchain.scripts.misc
 
+import org.apache.spark.SparkContext
 import org.dyne.danielsan.openblockchain.entities.Visualization
 import org.dyne.danielsan.openblockchain.gen.{Blocks, Signals, Transactions}
 import org.dyne.danielsan.openblockchain.scripts.VizScript
 
 object StatsViz extends VizScript[Map[String, Double]] {
 
-  override def generate(): List[Visualization[Map[String, Double]]] = {
+  override def generate(sc: SparkContext): List[Visualization[Map[String, Double]]] = {
     val data = List("day", "week", "month", "year")
       .flatMap(granularity => {
         Seq() ++
-          Blocks.average(granularity).toSeq ++
-          Transactions.average(granularity).toSeq ++
-          Signals.average(granularity).toSeq
+          Blocks.average(granularity)(sc).toSeq ++
+          Transactions.average(granularity)(sc).toSeq ++
+          Signals.average(granularity)(sc).toSeq
       })
       .toMap
 
