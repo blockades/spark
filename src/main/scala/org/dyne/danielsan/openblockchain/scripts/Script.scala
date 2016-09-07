@@ -7,7 +7,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 trait Script {
 
   protected lazy val scriptName = "OpenBlockChain_" + getClass.getSimpleName.stripSuffix("$")
-  protected lazy val sc = new SparkContext(
+  protected implicit lazy val sc = new SparkContext(
     new SparkConf()
       .setIfMissing("spark.app.name", scriptName)
       .setIfMissing("spark.cassandra.connection.host", sys.env.getOrElse("CASSANDRA_HOST", "localhost"))
