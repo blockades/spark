@@ -1,6 +1,7 @@
 package org.dyne.danielsan.openblockchain.scripts
 
 import com.datastax.spark.connector._
+import org.apache.spark.SparkContext
 import org.dyne.danielsan.openblockchain.entities.Visualization
 import org.json4s.NoTypeHints
 import org.json4s.jackson.Serialization
@@ -15,7 +16,7 @@ trait VizScript[T <: AnyRef] extends Script {
   override def main(args: Array[String]) {
     super.main(args)
 
-    val vizList = generate()
+    val vizList = generate(sc)
       .map(viz => viz.copy(data = viz.data.map(pt => write(pt))))
     println(s"GENERATED ${vizList.length} visualizations")
 
@@ -34,6 +35,6 @@ trait VizScript[T <: AnyRef] extends Script {
     sc.stop()
   }
 
-  def generate(): List[Visualization[T]]
+  def generate(sc: SparkContext): List[Visualization[T]]
 
 }

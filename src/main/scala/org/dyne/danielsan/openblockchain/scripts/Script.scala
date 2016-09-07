@@ -7,14 +7,11 @@ import org.apache.spark.{SparkConf, SparkContext}
 trait Script {
 
   protected lazy val scriptName = "OpenBlockChain_" + getClass.getSimpleName.stripSuffix("$")
-  protected implicit lazy val sc = new SparkContext(
+  protected lazy val sc = new SparkContext(
     new SparkConf()
       .setIfMissing("spark.app.name", scriptName)
       .setIfMissing("spark.cassandra.connection.host", sys.env.getOrElse("CASSANDRA_HOST", "localhost"))
   )
-
-  //  protected lazy val hdfs = FileSystem.get(sc.hadoopConfiguration)
-  //    protected lazy val sqlc = new SQLContext(sc)
 
   def main(args: Array[String]) {
     // Log4j properties
