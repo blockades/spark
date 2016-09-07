@@ -22,11 +22,13 @@ object SparkSubmit {
 
   // Define sbt tasks for every script
   private lazy val configs = Seq(
-    Script("Counter", "Counter", "1g"),
-    Script("BlocksViz", "line.BlocksViz", "1g"),
-    Script("TransactionsViz", "line.TransactionsViz", "1g"),
-    Script("SignalsViz", "line.SignalsViz", "1g"),
-    Script("StatsViz", "misc.StatsViz", "1g")
+    Script("Counter", "Counter", "6g"),
+    Script("BlocksViz", "line.BlocksViz", "6g"),
+    Script("TransactionsViz", "line.TransactionsViz", "6g"),
+    Script("SignalsViz", "line.SignalsViz", "6g"),
+    Script("LineAll", "line.All", "6g"),
+    Script("StatsViz", "misc.StatsViz", "6g"),
+    Script("MiscAll", "misc.All", "6g")
   )
 
   lazy val configurations = SparkSubmitSetting(configs.map(_.toSparkSubmit): _*)
