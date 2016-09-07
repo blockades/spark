@@ -21,7 +21,7 @@ trait VizGraph {
   def aggregateForGraph(granularity: String): Visualization = {
     val aggData = ListBuffer[AllOrNorPoint]()
 
-    // TODO generate all x points
+    // TODO generate all x points?
 
     for (i <- dataAll.indices) {
       val allPoint = dataAll(i)

@@ -11,8 +11,8 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.0.0" % "provided",
   "org.apache.spark" %% "spark-sql" % "2.0.0" % "provided",
   "com.datastax.spark" %% "spark-cassandra-connector" % "2.0.0-M1",
-  "org.json4s" %% "json4s-jackson" % "3.3.0.RC2",
-  "org.scalaj" %% "scalaj-http" % "2.0.0"
+  "org.json4s" %% "json4s-jackson" % "3.3.0.RC2"
+//  "org.scalaj" %% "scalaj-http" % "2.0.0"
 )
 
 dependencyOverrides ++= Set(
