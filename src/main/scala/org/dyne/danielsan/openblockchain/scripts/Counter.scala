@@ -7,8 +7,8 @@ object Counter extends Script {
   override def main(args: Array[String]) {
     super.main(args)
 
-    val blocksCount = sc.cassandraTable("openblockchain", "blocks").count()
-    val transactionsCount = sc.cassandraTable("openblockchain", "transactions").count()
+    val blocksCount = sc.cassandraTable("openblockchain", "blocks").cassandraCount()
+    val transactionsCount = sc.cassandraTable("openblockchain", "transactions").cassandraCount()
 
     println(s"Blocks: $blocksCount")
     println(s"Transactions: $transactionsCount")

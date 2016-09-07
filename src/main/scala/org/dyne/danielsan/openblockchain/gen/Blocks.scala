@@ -8,6 +8,7 @@ object Blocks extends Helpers {
   def allOrNor(granularity: String)(implicit sc: SparkContext): List[Map[String, Long]] = {
     sc.cassandraTable[(Long, Boolean)]("openblockchain", "blocks")
       .select("time", "is_op_return")
+      .repartition(16)
       .map {
         case (time, isOpReturn) =>
           (floorTimestamp(time, granularity), (1L, booleanToLong(isOpReturn), booleanToLong(!isOpReturn)))
@@ -33,6 +34,7 @@ object Blocks extends Helpers {
   def average(granularity: String)(implicit sc: SparkContext): Map[String, Double] = {
     val data = sc.cassandraTable[(Long, Boolean)]("openblockchain", "blocks")
       .select("time", "is_op_return")
+      .repartition(16)
       .map {
         case (time, isOpReturn) =>
           (floorTimestamp(time, granularity), (1L, booleanToLong(isOpReturn), booleanToLong(!isOpReturn)))
