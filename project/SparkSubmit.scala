@@ -1,5 +1,3 @@
-import sbt._
-import sbtassembly.AssemblyKeys._
 import sbtsparksubmit.SparkSubmitPlugin.autoImport._
 
 import scala.collection.mutable

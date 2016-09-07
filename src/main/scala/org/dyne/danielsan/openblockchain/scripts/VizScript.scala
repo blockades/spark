@@ -21,8 +21,9 @@ trait VizScript[T <: AnyRef] extends Script {
 
     sc.parallelize(vizList)
       .saveToCassandra("openblockchain", "visualizations")
+
     vizList.foreach { viz =>
-      println("SAVED: " + viz.copy(data = viz.data.take(10)))
+      println("SAVED: " + viz.copy(data = viz.data.take(20)))
     }
 
     val isLocal = sys.env.get("OBC_SPARK_MASTER").exists(_.contains("local"))
