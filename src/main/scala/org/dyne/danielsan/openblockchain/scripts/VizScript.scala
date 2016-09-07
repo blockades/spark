@@ -4,10 +4,14 @@ import java.util.Calendar
 
 import com.datastax.spark.connector._
 import org.dyne.danielsan.openblockchain.entities.Visualization
+import org.json4s.NoTypeHints
+import org.json4s.jackson.Serialization
 
 import scala.concurrent.duration._
 
 trait VizScript extends Script {
+
+  implicit val formats = Serialization.formats(NoTypeHints)
 
   implicit class BetterLong(l: Long) {
     def floorTimestamp(granularity: String): Long = {

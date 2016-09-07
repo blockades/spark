@@ -3,6 +3,8 @@ package org.dyne.danielsan.openblockchain.scripts.line
 import com.datastax.spark.connector._
 import org.dyne.danielsan.openblockchain.entities.{Point, Visualization}
 import org.dyne.danielsan.openblockchain.scripts.{VizGraph, VizScript}
+import org.json4s.NoTypeHints
+import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.write
 
 import scala.language.postfixOps
@@ -11,6 +13,8 @@ import scala.language.postfixOps
   * Blocks over time
   */
 object BlocksViz extends VizScript with VizGraph {
+
+  override implicit val formats = Serialization.formats(NoTypeHints)
 
   val vizName = "blocks"
 
