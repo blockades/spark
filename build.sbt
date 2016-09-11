@@ -48,3 +48,4 @@ sparkSubmitJar := assembly.value.getAbsolutePath
 SparkSubmit.configurations
 
 connectInput in run := true
+
