@@ -1,6 +1,7 @@
 package org.dyne.danielsan.openblockchain.scripts
 
 import com.datastax.spark.connector._
+import org.dyne.danielsan.openblockchain.Script
 
 object Counter extends Script {
 

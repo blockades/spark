@@ -1,11 +1,31 @@
-package org.dyne.danielsan.openblockchain.gen
+package org.dyne.danielsan.openblockchain
 
 import java.util.Calendar
 
-trait Helpers {
+import org.dyne.danielsan.openblockchain.entities.AllOrNorPoint
 
-  def floorTimestamp(l: Long, granularity: String): Long = {
-    granularity match {
+object Helpers {
+
+  def aggregate(data: List[AllOrNorPoint], granularity: String): List[AllOrNorPoint] = {
+    data
+      .map(pt => pt.copy(x = pt.x.floorTs(granularity)))
+      .groupBy(_.x)
+      .map(_._2.reduce(_ + _))
+      .toList
+  }
+
+  def reduceStats(data: List[AllOrNorPoint]): AllOrNorPoint = {
+    data
+      .reduce(_ + _)
+      .copy(x = data.length)
+  }
+
+  implicit class ListExtra(list: List[AllOrNorPoint]) {
+    def toMapElems = list.map(_.toMap)
+  }
+
+  implicit class LongExtra(l: Long) {
+    def floorTs(granularity: String): Long = granularity match {
       case "day" => toDayTimestamp(l)
       case "week" => toWeekTimestamp(l)
       case "month" => toMonthTimestamp(l)
@@ -13,8 +33,8 @@ trait Helpers {
     }
   }
 
-  def booleanToLong(b: Boolean): Long = {
-    if (b) 1L else 0L
+  implicit class BooleanExtra(b: Boolean) {
+    def toLong: Long = if (b) 1L else 0L
   }
 
   private def toDayTimestamp(l: Long): Long = {

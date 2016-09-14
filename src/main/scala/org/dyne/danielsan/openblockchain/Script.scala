@@ -1,4 +1,4 @@
-package org.dyne.danielsan.openblockchain.scripts
+package org.dyne.danielsan.openblockchain
 
 import org.apache.log4j.PropertyConfigurator
 import org.apache.spark.{SparkConf, SparkContext}
