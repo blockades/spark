@@ -17,7 +17,7 @@ object All extends Script {
   override def main(args: Array[String]) {
     super.main(args)
 
-    val vizList = generate(sc) ++ generateStats(sc)
+    val vizList = (generate(sc) ++ generateStats(sc))
       .map(viz => viz.copy(data = viz.data.map(pt => write(pt))))
     println(s"GENERATED ${vizList.length} visualizations")
 
