@@ -12,6 +12,7 @@ object Helpers {
       .groupBy(_.x)
       .map(_._2.reduce(_ + _))
       .toList
+      .sortBy(_.x)
   }
 
   def reduceStats(data: List[AllOrNorPoint]): AllOrNorPoint = {
